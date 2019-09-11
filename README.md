@@ -1,7 +1,7 @@
 ## 如何启动
 ```
 $ git clone 
-$ cd SKY
+$ cd skycloud-admin-vue
 # 安装
 $ yarn install
 # 启动
