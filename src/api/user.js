@@ -28,8 +28,8 @@ export const refeshToken = () => request({
 })
 
 export const getMenu = () => request({
-  url: '/api/system/menu/routes',
-  method: 'get'
+  url: '/api/resources/getMenu',
+  method: 'post'
 });
 
 export const getTopMenu = () => request({

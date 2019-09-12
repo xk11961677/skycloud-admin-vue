@@ -43,7 +43,6 @@ const user = {
             return new Promise((resolve, reject) => {
                 loginByUsername(userInfo.tenantId, userInfo.username, userInfo.password, userInfo.type).then(res => {
                     const data = res.data.data;
-                    console.log("===="+data);
                     commit('SET_TOKEN', data.accessToken);
                     commit('SET_USERIFNO', data);
                     commit('DEL_ALL_TAG');
@@ -138,7 +137,8 @@ const user = {
         GetMenu({ commit, dispatch }, parentId) {
             return new Promise(resolve => {
                 getMenu(parentId).then((res) => {
-                    const data = res.data.data
+                    const result = res.data.data
+                    const data = JSON.parse(result);
                     let menu = deepClone(data);
                     menu.forEach(ele => {
                         addPath(ele, true);

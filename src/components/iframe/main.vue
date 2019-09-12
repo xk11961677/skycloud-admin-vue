@@ -66,7 +66,7 @@ export default {
       }
       var list = [];
       for (var key in this.$route.query) {
-        if (key != "src" && key != "name" && key != "i18n") {
+        if (key != "src" && key != "name" && key != "i18n" && key !="target") {
           list.push(`${key}= this.$route.query[key]`);
         }
       }

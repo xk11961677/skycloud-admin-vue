@@ -16,23 +16,23 @@ export default ({ mock }) => {
         return data;
     });
     //获取左侧菜单
-    Mock.mock(new RegExp('/system/menu/routes*'), 'get', () => {
-        const data = {
-            code: 200,
-            message: '成功',
-            data: [{
-                path:'aaaa',
-                url:'aaaaa',
-                name:'菜单一',
-                children:[{
-                    path:'aaaa',
-                    url:'aaaaa',
-                    name:'菜单一 一'
-                }]
-            }]
-        };
-        return data;
-    });
+    // Mock.mock(new RegExp('/system/menu/routes*'), 'get', () => {
+    //     const data = {
+    //         code: 200,
+    //         message: '成功',
+    //         data: [{
+    //             path:'aaaa',
+    //             url:'aaaaa',
+    //             name:'菜单一',
+    //             children:[{
+    //                 path:'aaaa',
+    //                 url:'aaaaa',
+    //                 name:'菜单一 一'
+    //             }]
+    //         }]
+    //     };
+    //     return data;
+    // });
 
     //获取button
     Mock.mock(new RegExp('/system/menu/buttons*'), 'get', () => {

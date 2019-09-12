@@ -30,8 +30,8 @@ export default {
   menu: {
     iconDefault: 'iconfont icon-caidan',
     props: {
-      label: 'name',
-      path: 'path',
+      label: 'nodeName',
+      path: 'url',
       icon: 'source',
       children: 'children'
     }
