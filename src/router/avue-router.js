@@ -94,6 +94,7 @@ RouterPlugin.install = function (vue, router, store, i18n) {
             for (let i = 0; i < aMenu.length; i++) {
                 const oMenu = aMenu[i];
                 if (this.routerList.includes(oMenu[propsDefault.path])) return;
+
                 const path = (() => {
                     if (first) {
                         return oMenu[propsDefault.path].replace('/index', '')
@@ -102,7 +103,7 @@ RouterPlugin.install = function (vue, router, store, i18n) {
                     }
                 })(),
                     //特殊处理组件
-                    component = 'views' + oMenu.path,
+                    component = 'views' + oMenu[propsDefault.path],
                     name = oMenu[propsDefault.label],
                     icon = oMenu[propsDefault.icon],
                     children = oMenu[propsDefault.children],

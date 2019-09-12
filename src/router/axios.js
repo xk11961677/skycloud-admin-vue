@@ -56,7 +56,6 @@ axios.interceptors.response.use(res => {
   //如果是401则跳转到登录页面
   if (status === 401) store.dispatch('FedLogOut').then(() => router.push({path: '/login'}));
   // 如果请求为非1000否者默认统一处理
-  console.log(status);
   if (status !== 1000 && status !== 200) {
     Message({
       message: message,
