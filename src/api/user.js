@@ -28,7 +28,7 @@ export const refeshToken = () => request({
 })
 
 export const getMenu = () => request({
-  url: '/api/resources/getMenu',
+  url: '/api/authentication/resources/getMenu',
   method: 'post'
 });
 

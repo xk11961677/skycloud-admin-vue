@@ -5,7 +5,7 @@ import {baseUrl} from '@/config/env';
 
 export function getList(params) {
   return request({
-    url: '/dataxPlugin',
+    url: '/api/datax/plugin',
     method: 'get',
     params
   })
@@ -13,14 +13,14 @@ export function getList(params) {
 
 export function fetchPlugin(params) {
   return request({
-    url: '/dataxPlugin/' + params,
+    url: '/api/datax/plugin/' + params,
     method: 'get'
   })
 }
 
 export function updatePlugin(data) {
   return request({
-    url: '/dataxPlugin/',
+    url: '/api/datax/plugin/',
     method: 'put',
     data
   })
@@ -28,7 +28,7 @@ export function updatePlugin(data) {
 
 export function createPlugin(data) {
   return request({
-    url: '/dataxPlugin/',
+    url: '/api/datax/plugin/',
     method: 'post',
     data
   })
@@ -36,7 +36,7 @@ export function createPlugin(data) {
 
 export function deletePlugin(data) {
   return request({
-    url: '/dataxPlugin/',
+    url: '/api/datax/plugin/',
     method: 'delete',
     params: data
   })

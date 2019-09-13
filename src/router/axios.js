@@ -48,15 +48,16 @@ axios.interceptors.request.use(config => {
 //HTTPresponse拦截
 axios.interceptors.response.use(res => {
   NProgress.done();
-  const status = res.data.code || 1000
+  console.log("api response code "+(res.data.code));
+  const status = res.data.code || 0
   const statusWhiteList = website.statusWhiteList || [];
   const message = res.data.msg || '未知错误';
   //如果在白名单里则自行catch逻辑处理
   if (statusWhiteList.includes(status)) return Promise.reject(res);
   //如果是401则跳转到登录页面
   if (status === 401) store.dispatch('FedLogOut').then(() => router.push({path: '/login'}));
-  // 如果请求为非1000否者默认统一处理
-  if (status !== 1000 && status !== 200) {
+  // 如果请求为非0否者默认统一处理
+  if (status !== 0 && status !== 200) {
     Message({
       message: message,
       type: 'error'

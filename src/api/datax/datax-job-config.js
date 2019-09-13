@@ -5,7 +5,7 @@ import {baseUrl} from '@/config/env';
 
 export function paged(params) {
   return request({
-    url: '/jobConfig',
+    url: '/api/datax/jobConfig',
     method: 'get',
     params
   })
@@ -13,14 +13,14 @@ export function paged(params) {
 
 export function fetch(params) {
   return request({
-    url: '/jobConfig/' + params,
+    url: '/api/datax/jobConfig/' + params,
     method: 'get'
   })
 }
 
 export function updated(data) {
   return request({
-    url: '/jobConfig/',
+    url: '/api/datax/jobConfig/',
     method: 'put',
     data
   })
@@ -28,7 +28,7 @@ export function updated(data) {
 
 export function created(data) {
   return request({
-    url: '/jobConfig/',
+    url: '/api/datax/jobConfig/',
     method: 'post',
     data
   })
@@ -36,7 +36,7 @@ export function created(data) {
 
 export function deleted(data) {
   return request({
-    url: '/jobConfig/',
+    url: '/api/datax/jobConfig/',
     method: 'delete',
     params: data
   })
@@ -44,7 +44,7 @@ export function deleted(data) {
 
 export function viewJobLog(params) {
   return request({
-    url: '/viewJobLog',
+    url: '/api/datax/viewJobLog',
     method: 'get',
     params
   })
