@@ -1,24 +1,26 @@
 import request from '@/router/axios';
 import {baseUrl} from '@/config/env';
 
-// datax插件api
-
-export function getList(params) {
+export function getList(current, size, params) {
   return request({
     url: '/api/datax/plugin',
     method: 'get',
-    params
+    params: {
+      ...params,
+      current,
+      size
+    }
   })
 }
 
-export function fetchPlugin(params) {
+export function getOne(params) {
   return request({
     url: '/api/datax/plugin/' + params,
     method: 'get'
   })
 }
 
-export function updatePlugin(data) {
+export function update(data) {
   return request({
     url: '/api/datax/plugin/',
     method: 'put',
@@ -26,7 +28,7 @@ export function updatePlugin(data) {
   })
 }
 
-export function createPlugin(data) {
+export function add(data) {
   return request({
     url: '/api/datax/plugin/',
     method: 'post',
@@ -34,10 +36,23 @@ export function createPlugin(data) {
   })
 }
 
-export function deletePlugin(data) {
+export function remove(data) {
   return request({
     url: '/api/datax/plugin/',
     method: 'delete',
-    params: data
+    params: {
+      "ids":data
+    }
+  })
+}
+
+
+export function copy(data) {
+  return request({
+    url: '/api/datax/plugin/copy',
+    method: 'post',
+    params: {
+      "id":data
+    }
   })
 }

@@ -35,19 +35,19 @@ export default ({ mock }) => {
     // });
 
     //获取button
-    Mock.mock(new RegExp('/system/menu/buttons*'), 'get', () => {
-        const data = {
-            code: 200,
-            message: '成功',
-            data: [{
-                path:'aaaa',
-                url:'aaaaa',
-                name:'按钮1',
-                children:null
-            }]
-        };
-        return data;
-    });
+    // Mock.mock(new RegExp('/api/authentication/resources/getButton*'), 'post', () => {
+    //     const data = {
+    //         code: 200,
+    //         message: '成功',
+    //         data: [{
+    //             path:'aaaa',
+    //             url:'aaaaa',
+    //             name:'按钮1',
+    //             children:null
+    //         }]
+    //     };
+    //     return data;
+    // });
 
     //用户退出
     Mock.mock('/user/logout', 'get', {

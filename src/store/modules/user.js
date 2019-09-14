@@ -53,6 +53,7 @@ const user = {
                 })
             })
         },
+        //获取按钮权限
         GetButtons({ commit }) {
             return new Promise((resolve) => {
                 getButtons().then(res => {

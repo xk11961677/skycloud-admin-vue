@@ -1,6 +1,7 @@
 import request from '@/router/axios';
 import {baseUrl} from '@/config/env';
 
+//用户登录
 export const loginByUsername = (tenantId, account, password, type) => request({
   url: '/api/auth/token',
   method: 'post',
@@ -12,9 +13,10 @@ export const loginByUsername = (tenantId, account, password, type) => request({
   }
 })
 
+//获取按钮权限
 export const getButtons = () => request({
-  url: '/api/system/menu/buttons',
-  method: 'get'
+  url: '/api/authentication/resources/getButton',
+  method: 'post'
 });
 
 export const getUserInfo = () => request({
