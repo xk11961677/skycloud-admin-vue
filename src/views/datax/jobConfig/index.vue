@@ -1,235 +1,287 @@
 <template>
-  <div class="app-container">
-    <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="作业名" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-input v-model="listQuery.jobGroup" placeholder="分组" style="width: 200px;" class="filter-item" />
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="fetchData">
-        Search
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
-        Add
-      </el-button>
-      <!-- <el-checkbox v-model="showReviewer" class="filter-item" style="margin-left:15px;" @change="tableKey=tableKey+1">
-        reviewer
-      </el-checkbox> -->
-    </div>
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
+  <basic-container>
+    <avue-crud
+      :option="option"
+      :table-loading="loading"
+      :data="data"
+      ref="crud"
+      v-model="form"
+      :permission="permissionList"
+      :page="page"
+      @row-del="rowDel"
+      @row-update="rowUpdate"
+      @row-save="rowSave"
+      :before-open="beforeOpen"
+      @search-change="searchChange"
+      @search-reset="searchReset"
+      @selection-change="selectionChange"
+      @current-change="currentChange"
+      @size-change="sizeChange"
+      @on-load="onLoad"
     >
-      <el-table-column align="center" label="序号" width="50">
-        <template slot-scope="scope">{{ scope.$index +1 }}</template>
-      </el-table-column>
-      <el-table-column label="id" width="95" align="center">
-        <template slot-scope="scope">{{ scope.row.id }}</template>
-      </el-table-column>
-      <el-table-column label="作业名" width="343" align="center">
-        <template slot-scope="scope">{{ scope.row.name }}</template>
-      </el-table-column>
-      <el-table-column label="分组" width="200" align="center">
-        <template slot-scope="scope">{{ scope.row.jobGroup }}</template>
-      </el-table-column>
-      <el-table-column label="configJson" width="150" align="center" :show-overflow-tooltip="true">
-        <template slot-scope="scope">{{ scope.row.configJson }}</template>
-      </el-table-column>
-      <el-table-column label="configJsonParam" width="150" align="center" :show-overflow-tooltip="true">
-        <template slot-scope="scope">{{ scope.row.configJsonParam }}</template>
-      </el-table-column>
-      <el-table-column label="Actions" align="center" width="200" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            编辑
-          </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row)">
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.current" :limit.sync="listQuery.size" @pagination="fetchData" />
+      <template slot="menuLeft">
+        <el-button
+          type="danger"
+          size="small"
+          icon="el-icon-delete"
+          plain
+          @click="handleDelete"
+          v-if="permission.elt_manager_jobConfig_btn_del"
+        >删 除</el-button>
+      </template>
+      <template slot-scope="scope" slot="menu">
+        <el-button
+          type="text"
+          size="small"
+          icon="el-icon-document-copy"
+          v-if="permission.elt_manager_jobConfig_btn_edit"
+          plain
+          class="none-border"
+          @click.stop="handleCopy(scope.row)"
+        >复制</el-button>
+      </template>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="分组" prop="jobGroup">
-          <el-input v-model="temp.jobGroup" placeholder="分组" />
-        </el-form-item>
-        <el-form-item label="作业名" prop="name">
-          <el-input v-model="temp.name" placeholder="作业名" />
-        </el-form-item>
-        <el-form-item label="参数" prop="configJsonParam">
-          <el-input v-model="temp.configJsonParam" placeholder="参数" />
-        </el-form-item>
-      </el-form>
-
-      <json-editor ref="jsonEditor" v-model="configJson" />
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">
-          Cancel
-        </el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
-          Confirm
-        </el-button>
-      </div>
-    </el-dialog>
-  </div>
+      <template slot-scope="scope" slot="configJsonForm">
+        <json-editor ref="jsonEditor" v-model="configJson" />
+      </template>
+    </avue-crud>
+  </basic-container>
 </template>
 
 <script>
-import * as Api from "@/api/datax/datax-job-config";
-// import waves from '@/directive/waves' // waves directive
-import Pagination from '@/components/pagination' // secondary package based on el-pagination
-import JsonEditor from '@/components/json-editor'
+import {
+  getList,
+  getOne,
+  update,
+  add,
+  remove,
+  copy
+} from "@/api/datax/datax-job-config";
+import { mapGetters } from "vuex";
+import JsonEditor from "@/components/json-editor";
 
 export default {
-  name: "DataxJobLog",
-  components: { Pagination, JsonEditor },
-  // directives: { waves },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: "success",
-        draft: "gray",
-        deleted: "danger"
-      };
-      return statusMap[status];
-    }
-  },
+  components: { JsonEditor },
   data() {
     return {
-      list: null,
-      listLoading: true,
-      total: 0,
-      listQuery: {
-        current: 1,
-        size: 10,
-        name: undefined,
-        jobGroup: undefined
+      configJson: {},
+      form: {},
+      selectionList: [],
+      loading: true,
+      query: {},
+      page: {
+        pageSize: 10,
+        currentPage: 1,
+        total: 0
       },
-      editJsonVisible: false,
-      pluginData: [],
-      dialogFormVisible: false,
-      dialogStatus: '',
-      textMap: {
-        update: 'Edit',
-        create: 'Create'
+      option: {
+        dialogWidth: 400,
+        dialogHeight: 300,
+        tip: false,
+        border: true,
+        index: true,
+        selection: true,
+        labelWidth: 120,
+        viewBtn: true,
+        column: [
+          {
+            label: "作业名称",
+            prop: "name",
+            search: true,
+            overHidden: true,
+            span: 100,
+            rules: [
+              {
+                required: true,
+                message: "请输入作业名称",
+                trigger: "blur"
+              }
+            ]
+          },
+          {
+            label: "作业分组",
+            prop: "jobGroup",
+            search: true,
+            span: 100,
+            rules: [
+              {
+                required: true,
+                message: "请输入作业分组",
+                trigger: "blur"
+              }
+            ]
+          },
+          {
+            label: "JSON配置变量值",
+            prop: "configJsonParam",
+            overHidden: true,
+            span: 100,
+            rules: [
+              {
+                required: false
+              }
+            ]
+          },
+          {
+            label: "JSON配置",
+            prop: "configJson",
+            overHidden: true,
+            formslot: true,
+            span: 100
+          }
+        ]
       },
-      rules: {
-        name: [{ required: true, message: 'name is required', trigger: 'blur' }],
-        jobGroup: [{ required: true, message: 'jobGroup is required', trigger: 'blur' }]
-      },
-      temp: {
-        id: undefined,
-        name: undefined,
-        jobGroup: undefined,
-        configJsonParam: undefined,
-        configJson: undefined
-      },
-      configJson: ''
+      data: []
     };
   },
-  created() {
-    this.fetchData();
+  computed: {
+    ...mapGetters(["permission"]),
+    permissionList() {
+      return {
+        addBtn: this.vaildData(this.permission.elt_manager_jobConfig_btn_add, false),
+        viewBtn: this.vaildData(this.permission.elt_manager_jobConfig_btn_view, false),
+        delBtn: this.vaildData(this.permission.elt_manager_jobConfig_btn_del, false),
+        editBtn: this.vaildData(this.permission.elt_manager_jobConfig_btn_edit, false)
+      };
+    },
+    ids() {
+      let ids = [];
+      this.selectionList.forEach(ele => {
+        ids.push(ele.id);
+      });
+      return ids.join(",");
+    }
   },
   methods: {
-    fetchData() {
-      this.listLoading = true;
-      Api.paged(this.listQuery).then(response => {
-        const { records } = response
-        const { total } = response
-        this.total = total
-        this.list = records;
-        this.listLoading = false;
+    rowSave(row, loading, done) {
+      row.configJson = JSON.stringify(this.configJson || {});
+      add(row).then(
+        () => {
+          loading();
+          this.onLoad(this.page);
+          this.$message({
+            type: "success",
+            message: "操作成功!"
+          });
+        },
+        error => {
+          done();
+          console.log(error);
+        }
+      );
+    },
+    rowUpdate(row, index, loading, done) {
+      row.configJson = JSON.stringify(this.configJson || {});
+      update(row).then(
+        () => {
+          loading();
+          this.onLoad(this.page);
+          this.$message({
+            type: "success",
+            message: "操作成功!"
+          });
+        },
+        error => {
+          done();
+          console.log(error);
+        }
+      );
+    },
+    rowDel(row) {
+      this.$confirm("确定将选择数据删除?", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          return remove(row.id);
+        })
+        .then(() => {
+          this.onLoad(this.page);
+          this.$message({
+            type: "success",
+            message: "操作成功!"
+          });
+        });
+    },
+
+    searchReset() {
+      this.query = {};
+      this.onLoad(this.page);
+    },
+    searchChange(params) {
+      this.query = params;
+      this.onLoad(this.page, params);
+    },
+    selectionChange(list) {
+      this.selectionList = list;
+    },
+    selectionClear() {
+      this.selectionList = [];
+      this.$refs.crud.toggleSelection();
+    },
+    handleDelete() {
+      if (this.selectionList.length === 0) {
+        this.$message.warning("请选择至少一条数据");
+        return;
+      }
+      this.$confirm("确定将选择数据删除?", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          return remove(this.ids);
+        })
+        .then(() => {
+          this.onLoad(this.page);
+          this.$message({
+            type: "success",
+            message: "操作成功!"
+          });
+          this.$refs.crud.toggleSelection();
+        });
+    },
+    handleCopy(row) {
+      copy(row.id).then(() => {
+        this.onLoad(this.page);
+        this.$message({
+          type: "success",
+          message: "复制成功!"
+        });
       });
     },
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        name: undefined,
-        jobGroup: undefined,
-        configJsonParam: undefined,
-        configJson: undefined
+    beforeOpen(done, type) {
+      if (["add"].includes(type)) {
+        this.configJson = {};
       }
-      this.configJson = {}
+      if (["edit", "view"].includes(type)) {
+        this.configJson = JSON.parse(this.form.configJson || "{}");
+        getOne(this.form.id).then(res => {
+          this.form = res.data.data;
+        });
+      }
+      done();
     },
-    handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+    currentChange(currentPage) {
+      this.page.currentPage = currentPage;
     },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          this.temp.configJson = this.configJson
-          Api.created(this.temp).then(() => {
-            this.fetchData()
-            this.dialogFormVisible = false
-            this.$notify({
-              title: 'Success',
-              message: 'Created Successfully',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
+    sizeChange(pageSize) {
+      this.page.pageSize = pageSize;
     },
-    handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      this.configJson = JSON.parse(row.configJson)
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.configJson = this.configJson
-          Api.updated(tempData).then(() => {
-            this.fetchData()
-            this.dialogFormVisible = false
-            this.$notify({
-              title: 'Success',
-              message: 'Update Successfully',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
-    handleDelete(row) {
-      console.log('删除')
-      const idList = []
-      idList.push(row.id)
-      // 拼成 idList=xx
-      // 多个比较麻烦，这里不处理
-      Api.deleted({ idList: row.id }).then(response => {
-        this.fetchData()
-        this.$notify({
-          title: 'Success',
-          message: 'Delete Successfully',
-          type: 'success',
-          duration: 2000
-        })
-      })
-      // const index = this.list.indexOf(row)
-    },
-    handleFetchPv(id) {
-      Api.fetch(id).then(response => {
-        this.pluginData = response
-        this.dialogPvVisible = true
-      })
+    onLoad(page, params = {}) {
+      this.loading = true;
+      getList(
+        page.currentPage,
+        page.pageSize,
+        Object.assign(params, this.query)
+      ).then(res => {
+        const data = res.data.data;
+        this.page.total = data.total;
+        this.data = data.records;
+        this.loading = false;
+        this.selectionClear();
+      });
     }
   }
 };

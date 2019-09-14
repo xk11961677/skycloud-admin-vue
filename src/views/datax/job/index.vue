@@ -6,12 +6,7 @@
         <div class="el-form-item__content">
           <div class="el-tooltip" aria-describedby tabindex="0">
             <div class="el-input el-input--small el-input--suffix">
-              <el-select
-                v-model="jobId"
-                class="el-form-item"
-                @change="jobChange"
-                @clear="jobClear"
-              >
+              <el-select v-model="jobId" class="el-form-item" @change="jobChange" @clear="jobClear">
                 <el-option
                   v-for="item in pluginList"
                   :key="item.id"
@@ -36,12 +31,7 @@
           icon="el-icon-refresh"
           @click="getJobList"
         >刷新任务</el-button>
-        <el-button
-          class="el-button--small"
-          type="primary"
-          icon="el-icon-trash"
-          @click="jobClear"
-        >清空</el-button>
+        <el-button class="el-button--small" type="primary" icon="el-icon-trash" @click="jobClear">清空</el-button>
 
         <el-button
           v-show="jobId"
@@ -79,7 +69,7 @@
 <script>
 import { runJob, runJobLog } from "@/api/datax/datax-job";
 import {
-  paged as jobConfigPaged,
+  getList,
   viewJobLog
 } from "@/api/datax/datax-job-config";
 import JsonEditor from "@/components/json-editor";
@@ -115,7 +105,7 @@ export default {
   methods: {
     getJobList() {
       this.jobClear();
-      jobConfigPaged(this.listQuery).then(response => {
+      getList(this.listQuery.current,this.listQuery.size).then(response => {
         this.jobId = undefined;
         this.jobLogQuery.fromLineNum = 0;
         this.logContent = undefined;
@@ -199,7 +189,7 @@ export default {
       this.jobId = undefined;
       this.logShow = false;
       this.logContent = undefined;
-      this.templateJson={};
+      this.templateJson = {};
       this.templateJsonParam = undefined;
     }
   }
