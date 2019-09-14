@@ -5,7 +5,7 @@ import {baseUrl} from '@/config/env';
 
 export function runJob(data) {
   return request({
-    url: '/api/datax/runJob',
+    url: '/api/datax/job/runJob',
     method: 'post',
     data
   })
@@ -13,7 +13,7 @@ export function runJob(data) {
 
 export function runJobLog(data) {
   return request({
-    url: '/api/datax/runJobLog',
+    url: '/api/datax/job/runJobLog',
     method: 'post',
     data
   })

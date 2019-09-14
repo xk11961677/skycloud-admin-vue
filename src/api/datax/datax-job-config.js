@@ -44,7 +44,7 @@ export function deleted(data) {
 
 export function viewJobLog(params) {
   return request({
-    url: '/api/datax/viewJobLog',
+    url: '/api/datax/job/viewJobLog',
     method: 'get',
     params
   })
