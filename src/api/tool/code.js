@@ -1,5 +1,6 @@
 import request from '@/router/axios';
 
+
 export const getList = (current, size, params) => {
   return request({
     url: '/api/codegen/code/list',
@@ -16,7 +17,6 @@ export const build = (ids) => {
   return request({
     url: '/api/codegen/code/gen-code',
     method: 'post',
-    dataType:'application/octet-stream',
     params: {
       ids
     }

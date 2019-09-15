@@ -1,5 +1,5 @@
 import request from '@/router/axios';
-import {baseUrl} from '@/config/env';
+// import {baseUrl} from '@/config/env';
 
 export function getList(current, size, params) {
   return request({
