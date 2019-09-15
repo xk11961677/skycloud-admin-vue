@@ -2,7 +2,7 @@ import request from '@/router/axios';
 
 export const getList = (current, size, params) => {
   return request({
-    url: '/api/develop/code/list',
+    url: '/api/codegen/code/list',
     method: 'get',
     params: {
       ...params,
@@ -14,17 +14,17 @@ export const getList = (current, size, params) => {
 
 export const build = (ids) => {
   return request({
-    url: '/api/develop/code/gen-code',
+    url: '/api/codegen/code/gen-code',
     method: 'post',
+    dataType:'application/octet-stream',
     params: {
-      ids,
-      system: 'SKY'
+      ids
     }
   })
 }
 export const remove = (ids) => {
   return request({
-    url: '/api/develop/code/remove',
+    url: '/api/codegen/code/remove',
     method: 'post',
     params: {
       ids,
@@ -34,7 +34,7 @@ export const remove = (ids) => {
 
 export const add = (row) => {
   return request({
-    url: '/api/develop/code/submit',
+    url: '/api/codegen/code/add',
     method: 'post',
     data: row
   })
@@ -42,7 +42,7 @@ export const add = (row) => {
 
 export const update = (row) => {
   return request({
-    url: '/api/develop/code/submit',
+    url: '/api/codegen/code/update',
     method: 'post',
     data: row
   })
@@ -50,7 +50,7 @@ export const update = (row) => {
 
 export const copy = (id) => {
   return request({
-    url: '/api/develop/code/copy',
+    url: '/api/codegen/code/copy',
     method: 'post',
     params: {
       id,
@@ -60,7 +60,7 @@ export const copy = (id) => {
 
 export const getCode = (id) => {
   return request({
-    url: '/api/develop/code/detail',
+    url: '/api/codegen/code/detail',
     method: 'get',
     params: {
       id,

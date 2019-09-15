@@ -36,7 +36,6 @@
         <el-button type="text"
                    size="small"
                    icon="el-icon-document-copy"
-                   v-if="permission.code_edit"
                    plain
                    class="none-border"
                    @click.stop="handleCopy(scope.row)">复制
@@ -78,7 +77,7 @@
               search: true,
               span: 24,
               type: "select",
-              dicUrl: "/api/develop/datasource/select",
+              dicUrl: "/api/codegen/datasource/select",
               props: {
                 label: "name",
                 value: "id"
@@ -91,7 +90,7 @@
             },
             {
               label: "模块名",
-              prop: "codeName",
+              prop: "moduleName",
               search: true,
               rules: [{
                 required: true,
@@ -103,6 +102,7 @@
               label: "服务名",
               prop: "serviceName",
               search: true,
+              overHidden: true,
               rules: [{
                 required: true,
                 message: "请输入服务名",
@@ -129,19 +129,10 @@
               }]
             },
             {
-              label: "主键名",
-              prop: "pkName",
-              hide: true,
-              rules: [{
-                required: true,
-                message: "请输入主键名",
-                trigger: "blur"
-              }]
-            },
-            {
               label: "包名",
               prop: "packageName",
               overHidden: true,
+              span: 24,
               rules: [{
                 required: true,
                 message: "请输入包名",
@@ -149,59 +140,64 @@
               }]
             },
             {
-              label: "基础业务",
-              prop: "baseMode",
-              type: 'radio',
-              dicUrl: "/api/system/dict/dictionary?code=yes_no",
-              props: {
-                label: "dictValue",
-                value: "dictKey"
-              },
-              hide: true,
-              rules: [{
-                required: true,
-                message: "请选择基础业务",
-                trigger: "blur"
-              }]
-            },
-            {
-              label: "包装器",
-              prop: "wrapMode",
-              type: 'radio',
-              dicUrl: "/api/system/dict/dictionary?code=yes_no",
-              props: {
-                label: "dictValue",
-                value: "dictKey"
-              },
-              hide: true,
-              rules: [{
-                required: true,
-                message: "请选择包装器",
-                trigger: "blur"
-              }]
-            },
-            {
-              label: "后端生成路径",
-              prop: "apiPath",
-              span: 24,
-              hide: true,
-              rules: [{
-                required: true,
-                message: "请输入后端生成路径",
-                trigger: "blur"
-              }]
-            },
-            {
-              label: "前端生成路径",
-              prop: "webPath",
-              span: 24,
-              hide: true,
-              rules: [{
-                required: true,
-                message: "请输入前端生成路径",
-                trigger: "blur"
-              }]
+              label: "作者",
+              prop: "author",
+              hide: true
             }
+            // {
+            //   label: "基础业务",
+            //   prop: "baseMode",
+            //   type: 'radio',
+            //   dicUrl: "/api/system/dict/dictionary?code=yes_no",
+            //   props: {
+            //     label: "dictValue",
+            //     value: "dictKey"
+            //   },
+            //   hide: true,
+            //   rules: [{
+            //     required: true,
+            //     message: "请选择基础业务",
+            //     trigger: "blur"
+            //   }]
+            // },
+            // {
+            //   label: "包装器",
+            //   prop: "wrapMode",
+            //   type: 'radio',
+            //   dicUrl: "/api/system/dict/dictionary?code=yes_no",
+            //   props: {
+            //     label: "dictValue",
+            //     value: "dictKey"
+            //   },
+            //   hide: true,
+            //   rules: [{
+            //     required: true,
+            //     message: "请选择包装器",
+            //     trigger: "blur"
+            //   }]
+            // },
+            // {
+            //   label: "后端生成路径",
+            //   prop: "apiPath",
+            //   span: 24,
+            //   hide: true,
+            //   rules: [{
+            //     required: true,
+            //     message: "请输入后端生成路径",
+            //     trigger: "blur"
+            //   }]
+            // },
+            // {
+            //   label: "前端生成路径",
+            //   prop: "webPath",
+            //   span: 24,
+            //   hide: true,
+            //   rules: [{
+            //     required: true,
+            //     message: "请输入前端生成路径",
+            //     trigger: "blur"
+            //   }]
+            // }
           ]
         },
         data: []
@@ -211,10 +207,14 @@
       ...mapGetters(["permission"]),
       permissionList() {
         return {
-          addBtn: this.vaildData(this.permission.code_add, false),
-          viewBtn: this.vaildData(this.permission.code_view, false),
-          delBtn: this.vaildData(this.permission.code_delete, false),
-          editBtn: this.vaildData(this.permission.code_edit, false)
+          // addBtn: this.vaildData(this.permission.code_add, false),
+          // viewBtn: this.vaildData(this.permission.code_view, false),
+          // delBtn: this.vaildData(this.permission.code_delete, false),
+          // editBtn: this.vaildData(this.permission.code_edit, false)
+          addBtn: true,
+          viewBtn: true,
+          delBtn: true,
+          editBtn: true
         };
       },
       ids() {
@@ -367,9 +367,4 @@
   };
 </script>
 
-<style>
-  .none-border {
-    border: 0;
-    background-color: transparent !important;
-  }
-</style>
+
