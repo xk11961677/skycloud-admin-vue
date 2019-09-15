@@ -143,8 +143,6 @@ export default {
   computed: {
     ...mapGetters(["permission"]),
     permissionList() {
-      console.log(this.permission);
-
       return {
         addBtn: this.vaildData(this.permission.elt_manager_btn_add, false),
         viewBtn: this.vaildData(this.permission.elt_manager_btn_view, false),

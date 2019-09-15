@@ -2,7 +2,7 @@ import request from '@/router/axios';
 
 export const getList = (current, size, params) => {
   return request({
-    url: '/api/develop/datasource/list',
+    url: '/api/codegen/datasource/list',
     method: 'get',
     params: {
       ...params,
@@ -14,7 +14,7 @@ export const getList = (current, size, params) => {
 
 export const getDetail = (id) => {
   return request({
-    url: '/api/develop/datasource/detail',
+    url: '/api/codegen/datasource/detail',
     method: 'get',
     params: {
       id
@@ -24,7 +24,7 @@ export const getDetail = (id) => {
 
 export const remove = (ids) => {
   return request({
-    url: '/api/develop/datasource/remove',
+    url: '/api/codegen/datasource/remove',
     method: 'post',
     params: {
       ids,
@@ -34,7 +34,7 @@ export const remove = (ids) => {
 
 export const add = (row) => {
   return request({
-    url: '/api/develop/datasource/submit',
+    url: '/api/codegen/datasource/add',
     method: 'post',
     data: row
   })
@@ -42,9 +42,20 @@ export const add = (row) => {
 
 export const update = (row) => {
   return request({
-    url: '/api/develop/datasource/submit',
+    url: '/api/codegen/datasource/update',
     method: 'post',
     data: row
+  })
+}
+
+
+export const copy = (id) => {
+  return request({
+    url: '/api/codegen/datasource/copy',
+    method: 'post',
+    params: {
+      id,
+    }
   })
 }
 

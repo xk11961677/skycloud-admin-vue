@@ -77,13 +77,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="listQuery.current"
-      :limit.sync="listQuery.size"
-      @pagination="fetchData"
-    />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form
@@ -151,12 +144,9 @@ import {
 } from "@/api/datax/datax-job-config";
 // import waves from '@/directive/waves' // waves directive
 import { parseTime } from "@/util/util";
-import Pagination from "@/components/pagination"; // secondary package based on el-pagination
 
 export default {
   name: "DataxJobLog",
-  components: { Pagination },
-  // directives: { waves },
   filters: {
     statusFilter(status) {
       const statusMap = {
