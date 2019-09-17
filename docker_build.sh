@@ -1,3 +1,3 @@
 #!/bin/bash 
 
-docker build -t dooolycloud-admin-vue -f Dockerfile .
+docker build -t skycloud-admin-vue -f Dockerfile .
