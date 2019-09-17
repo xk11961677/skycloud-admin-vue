@@ -14,6 +14,10 @@
 .el-menu--horizontal {
     border-bottom: none !important;
 }
+//修改下拉框显示问题 margin-bottom:-15px;
+.el-select-dropdown__wrap{
+    margin-bottom: 0px!important;
+}
 
 .el-menu {
     border-right: none !important;
