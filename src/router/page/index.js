@@ -74,6 +74,19 @@ export default [{
 
 },
 {
+    path: '/windowOpen',
+    component: Layout,
+    redirect: '/windowOpen',
+    children: [{
+        path: ":routerPath",
+        name: 'windowOpen',
+        component: () =>
+            import( /* webpackChunkName: "page" */ '@/components/window-open/main'),
+        props: true
+    }]
+
+},
+{
     path: '*',
     redirect: '/404'
 }

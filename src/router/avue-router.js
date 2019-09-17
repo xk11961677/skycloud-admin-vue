@@ -54,7 +54,11 @@ RouterPlugin.install = function (vue, router, store, i18n) {
             let { src } = params;
             let result = src || '/';
             if (src.includes("http") || src.includes("https")) {
-                result = `/myiframe/urlPath?${objToform(params)}`;
+                if (src.includes("target=_blank")) {
+                    result = `/windowOpen/urlPath?${objToform(params)}`;
+                }else {
+                    result = `/myiframe/urlPath?${objToform(params)}`;
+                }
             }
             return result;
         },
