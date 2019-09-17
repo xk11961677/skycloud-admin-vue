@@ -15,7 +15,7 @@ export const loginByUsername = (tenantId, account, password, type) => request({
 
 //获取按钮权限
 export const getButtons = () => request({
-  url: '/api/authentication/resources/getButton',
+  url: baseUrl+'/authentication/resources/getButton',
   method: 'post'
 });
 
@@ -30,7 +30,7 @@ export const refeshToken = () => request({
 })
 
 export const getMenu = () => request({
-  url: '/api/authentication/resources/getMenu',
+  url: baseUrl+'/authentication/resources/getMenu',
   method: 'post'
 });
 

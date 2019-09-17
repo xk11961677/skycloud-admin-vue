@@ -4,9 +4,8 @@ import {baseUrl} from '@/config/env';
 // 抽取任务
 
 export function getList(current, size, params) {
-  console.log(baseUrl);
   return request({
-    url: '/api/datax/jobConfig',
+    url: baseUrl+'/datax/jobConfig',
     method: 'get',
     params:{
       ...params,
@@ -18,14 +17,14 @@ export function getList(current, size, params) {
 
 export function getOne(params) {
   return request({
-    url: '/api/datax/jobConfig/' + params,
+    url: baseUrl+'/datax/jobConfig/' + params,
     method: 'get'
   })
 }
 
 export function update(data) {
   return request({
-    url: '/api/datax/jobConfig/',
+    url: baseUrl+'/datax/jobConfig/',
     method: 'put',
     data
   })
@@ -33,7 +32,7 @@ export function update(data) {
 
 export function add(data) {
   return request({
-    url: '/api/datax/jobConfig/',
+    url: baseUrl+'/datax/jobConfig/',
     method: 'post',
     data
   })
@@ -41,7 +40,7 @@ export function add(data) {
 
 export function remove(data) {
   return request({
-    url: '/api/datax/jobConfig/',
+    url: baseUrl+'/datax/jobConfig/',
     method: 'delete',
     params: {
       "ids":data
@@ -51,7 +50,7 @@ export function remove(data) {
 
 export function copy(data) {
   return request({
-    url: '/api/datax/jobConfig/copy',
+    url: baseUrl+'/datax/jobConfig/copy',
     method: 'post',
     params: {
       "id":data
@@ -61,7 +60,7 @@ export function copy(data) {
 
 export function viewJobLog(params) {
   return request({
-    url: '/api/datax/job/viewJobLog',
+    url: baseUrl+'/datax/job/viewJobLog',
     method: 'get',
     params
   })

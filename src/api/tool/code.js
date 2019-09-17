@@ -1,9 +1,9 @@
 import request from '@/router/axios';
-
+import {baseUrl} from '@/config/env';
 
 export const getList = (current, size, params) => {
   return request({
-    url: '/api/codegen/code/list',
+    url: baseUrl+'/codegen/code/list',
     method: 'get',
     params: {
       ...params,
@@ -15,7 +15,7 @@ export const getList = (current, size, params) => {
 
 export const build = (ids) => {
   return request({
-    url: '/api/codegen/code/gen-code',
+    url: baseUrl+'/codegen/code/gen-code',
     method: 'post',
     params: {
       ids
@@ -24,7 +24,7 @@ export const build = (ids) => {
 }
 export const remove = (ids) => {
   return request({
-    url: '/api/codegen/code/remove',
+    url: baseUrl+'/codegen/code/remove',
     method: 'post',
     params: {
       ids,
@@ -34,7 +34,7 @@ export const remove = (ids) => {
 
 export const add = (row) => {
   return request({
-    url: '/api/codegen/code/add',
+    url: baseUrl+'/codegen/code/add',
     method: 'post',
     data: row
   })
@@ -42,7 +42,7 @@ export const add = (row) => {
 
 export const update = (row) => {
   return request({
-    url: '/api/codegen/code/update',
+    url: baseUrl+'/codegen/code/update',
     method: 'post',
     data: row
   })
@@ -50,7 +50,7 @@ export const update = (row) => {
 
 export const copy = (id) => {
   return request({
-    url: '/api/codegen/code/copy',
+    url: baseUrl+'/codegen/code/copy',
     method: 'post',
     params: {
       id,
@@ -60,7 +60,7 @@ export const copy = (id) => {
 
 export const getCode = (id) => {
   return request({
-    url: '/api/codegen/code/detail',
+    url: baseUrl+'/codegen/code/detail',
     method: 'get',
     params: {
       id,

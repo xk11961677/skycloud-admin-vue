@@ -1,4 +1,6 @@
 import Mock from 'mockjs'
+import { baseUrl } from '../config/env';
+
 export default ({ mock }) => {
     if (!mock) return
 
@@ -50,16 +52,16 @@ export default ({ mock }) => {
     // });
 
     //用户退出
-    Mock.mock('/user/logout', 'get', {
+    Mock.mock(baseUrl+'/user/logout', 'get', {
         data: true,
     });
     //刷新token
-    Mock.mock('/user/refesh', 'post', {
+    Mock.mock(baseUrl+'/user/refesh', 'post', {
         data: new Date().getTime() + ''
     });
 
     //获取表格数据
-    Mock.mock('/user/getTable', 'get', () => {
+    Mock.mock(baseUrl+'/user/getTable', 'get', () => {
         let list = []
         for (let i = 0; i < 5; i++) {
             list.push(Mock.mock({

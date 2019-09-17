@@ -1,4 +1,5 @@
 import Mock from 'mockjs'
+import {baseUrl} from '@/config/env';
 
 const top = [{
   label: "首页",
@@ -38,7 +39,7 @@ const top = [{
   }]
 export default ({mock}) => {
   if (!mock) return;
-  Mock.mock('/user/getTopMenu', 'get', () => {
+  Mock.mock(baseUrl+'/user/getTopMenu', 'get', () => {
     return {
       data: top
     }
