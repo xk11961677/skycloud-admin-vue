@@ -60,8 +60,7 @@
         loginForm: {
           tenantId: "000000",
           username: "admin",
-          password: "admin",
-          type: "account"
+          password: "password"
         },
         loginRules: {
           tenantId: [

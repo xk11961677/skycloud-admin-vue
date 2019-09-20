@@ -2,15 +2,13 @@ import request from '@/router/axios';
 import {baseUrl} from '@/config/env';
 
 //用户登录
-export const loginByUsername = (tenantId, account, password, type) => request({
-  url: '/api/auth/token',
+export const loginByUsername = (data) => request({
+  url: baseUrl + '/authorization/oauth/login',
   method: 'post',
-  params: {
-    tenantId,
-    account,
-    password,
-    type
-  }
+  headers: {
+    'channel':'doooly-admin-vue'
+  },
+  data
 })
 
 //获取按钮权限

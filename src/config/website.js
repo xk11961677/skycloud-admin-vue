@@ -4,8 +4,8 @@
 export default {
   title: "SKY",
   indexTitle: 'SKY Admin',
-  clientId: 'SKY', // 客户端id
-  clientSecret: 'SKY_secret', // 客户端密钥
+  clientId: 'test_client', // 客户端id
+  clientSecret: 'test_secret', // 客户端密钥
   tenantMode: true, // 是否开启租户模式
   logo: "S",
   key: 'SKY',//配置主键,目前用于存储
