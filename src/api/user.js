@@ -1,9 +1,10 @@
 import request from '@/router/axios';
 import {baseUrl} from '@/config/env';
+import website from '@/config/website';
 
 //用户登录
 export const loginByUsername = (data) => request({
-  url: baseUrl + '/authorization/oauth/login',
+  url: baseUrl + website.loginUrl,
   method: 'post',
   headers: {
     'channel':'doooly-admin-vue'

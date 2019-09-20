@@ -33,8 +33,8 @@ axios.interceptors.request.use(config => {
   const meta = (config.meta || {});
   const isToken = meta.isToken === false;
   config.headers['Authorization'] = `Basic ${Base64.encode(`${website.clientId}:${website.clientSecret}`)}`;
-  if (getToken() && !isToken) {
-    config.headers['Auth'] = 'bearer ' + getToken() // 让每个请求携带token--['Authorization']为自定义key 请根据实际情况自行修改
+  if (getToken() && !isToken && config.url != website.loginUrl) {
+    config.headers['Authorization'] = 'bearer ' + getToken() // 让每个请求携带token--['Authorization']为自定义key 请根据实际情况自行修改
   }
   //headers中配置serialize为true开启序列化
   if (config.method === 'post' && meta.isSerialize === true) {
