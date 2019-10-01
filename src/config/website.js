@@ -6,6 +6,7 @@ export default {
   indexTitle: 'SKY Admin',
   clientId: 'test_client', // 客户端id
   clientSecret: 'test_secret', // 客户端密钥
+  channel: 'sky-admin-vue', //渠道类型
   tenantMode: true, // 是否开启租户模式
   loginUrl: '/authorization/oauth/login', //登录url
   logo: "S",

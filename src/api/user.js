@@ -6,9 +6,9 @@ import website from '@/config/website';
 export const loginByUsername = (data) => request({
   url: baseUrl + website.loginUrl,
   method: 'post',
-  headers: {
-    'channel':'doooly-admin-vue'
-  },
+  // headers: {
+  //   'channel':'sky-admin-vue'
+  // },
   data
 })
 
