@@ -55,6 +55,7 @@ import {
 } from "@/api/tool/code";
 import { mapGetters } from "vuex";
 import { saveAs } from "file-saver";
+import {baseUrl} from '@/config/env';
 
 export default {
   data() {
@@ -84,7 +85,7 @@ export default {
             search: true,
             span: 24,
             type: "select",
-            dicUrl: "/api/codegen/datasource/select",
+            dicUrl: baseUrl+"/codegen/datasource/select",
             props: {
               label: "name",
               value: "id"
