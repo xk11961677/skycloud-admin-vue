@@ -55,7 +55,7 @@ import {
 } from "@/api/tool/code";
 import { mapGetters } from "vuex";
 import { saveAs } from "file-saver";
-import {baseUrl} from '@/config/env';
+import { baseUrl } from "@/config/env";
 
 export default {
   data() {
@@ -85,7 +85,7 @@ export default {
             search: true,
             span: 24,
             type: "select",
-            dicUrl: baseUrl+"/codegen/datasource/select",
+            dicUrl: baseUrl + "/codegen/datasource/select",
             props: {
               label: "name",
               value: "id"
@@ -94,6 +94,30 @@ export default {
               {
                 required: true,
                 message: "请选择数据源",
+                trigger: "blur"
+              }
+            ]
+          },
+          {
+            label: "持久化层类型",
+            prop: "dalType",
+            search: true,
+            span: 24,
+            type: "select",
+            dicData: [
+              {
+                label: "tk-mybatis",
+                value: 0
+              },
+              {
+                label: "mybatis-plus",
+                value: 1
+              }
+            ],
+            rules: [
+              {
+                required: true,
+                message: "请选择持久化类型",
                 trigger: "blur"
               }
             ]
@@ -317,12 +341,22 @@ export default {
             message: "操作成功!"
           });
           this.$refs.crud.toggleSelection();
-          res.data.data.forEach(data =>{
-            let file = this.b64toFile(data.base64,"code","application/zip;charset=utf-8");
-            let filename = data.serviceName+"_"+data.moduleName+"_"+data.tableName+"_"+data.id;
-            saveAs(file, "code_"+filename+".zip");
+          res.data.data.forEach(data => {
+            let file = this.b64toFile(
+              data.base64,
+              "code",
+              "application/zip;charset=utf-8"
+            );
+            let filename =
+              data.serviceName +
+              "_" +
+              data.moduleName +
+              "_" +
+              data.tableName +
+              "_" +
+              data.id;
+            saveAs(file, "code_" + filename + ".zip");
           });
-          
         });
     },
     handleCopy(row) {
