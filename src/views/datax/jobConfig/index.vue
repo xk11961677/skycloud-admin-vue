@@ -154,7 +154,8 @@ export default {
   },
   methods: {
     rowSave(row, loading, done) {
-      row.configJson = JSON.stringify(this.configJson || {});
+      // row.configJson = JSON.stringify(this.configJson || {});
+      row.configJson = this.configJson || {};
       add(row).then(
         () => {
           loading();
@@ -171,7 +172,8 @@ export default {
       );
     },
     rowUpdate(row, index, loading, done) {
-      row.configJson = JSON.stringify(this.configJson || {});
+      //row.configJson = JSON.stringify(this.configJson || {});
+      row.configJson = this.configJson || {};
       update(row).then(
         () => {
           loading();
